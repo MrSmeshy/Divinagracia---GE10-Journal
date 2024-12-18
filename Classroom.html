@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Classroom</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+     /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #0d0d0d; /* Dark background */
+      font-family: 'Orbitron', sans-serif;
+      color: #e0e0e0;
+      overflow-x: hidden;
+      animation: background-fade-in 3s ease-in-out forwards;
+    }
+
+    @keyframes background-fade-in {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('pixel_horizon3.jpeg');
+      background-size: cover;
+      background-position: center;
+      opacity: 0.2; /* Slightly darker transparency */
+      z-index: -1;
+      animation: background-fade-in 3s ease-in-out forwards;
+    } 
+
+    /* Floating Header Bar */
+    header {
+      position: fixed;
+      top: -100px; /* Start off-screen */
+      width: 100%;
+      background: rgba(13, 13, 13, 0.95); /* Slightly transparent dark background */
+      box-shadow: 0px 4px 8px rgba(0, 255, 255, 0.5);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      z-index: 1000;
+      border-bottom: 2px solid #ff00ff; /* Neon pink border */
+      animation: header-slide-in 2s ease-out forwards;
+    }
+
+    @keyframes header-slide-in {
+      0% {
+        top: -100px; /* Start off-screen */
+      }
+      100% {
+        top: 0; /* End at the top of the screen */
+      }
+    }
+
+    header h1 {
+      color: #00ffff; /* Neon cyan */
+      font-size: 2rem;
+      position: relative;
+      text-shadow: 0 0 4px #00ffff, 0 0 8px #00ffff, 0 0 16px #00ffff;
+      animation: glitch 2s infinite;
+    }
+
+    header h1::before,
+    header h1::after {
+      content: 'WPE Journal';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      color: #ff00ff; /* Neon pink glitch overlay */
+      overflow: hidden;
+      clip: rect(0, 900px, 0, 0);
+      animation: glitch-lines 2s infinite ease-in-out;
+    }
+
+    header h1::after {
+      color: #00ffff; /* Cyan glitch overlay */
+      animation: glitch-lines 2s infinite ease-in-out reverse;
+    }
+
+    @keyframes glitch {
+      0% {
+        text-shadow: 1px 1px #ff00ff, -1px -1px #00ffff;
+      }
+      50% {
+        text-shadow: -1px -1px #ff00ff, 1px 1px #00ffff;
+      }
+      100% {
+        text-shadow: 1px -1px #ff00ff, -1px 1px #00ffff;
+      }
+    }
+
+    @keyframes glitch-lines {
+      0% {
+        clip: rect(0, 900px, 0, 0);
+      }
+      10% {
+        clip: rect(15px, 900px, 30px, 0);
+      }
+      20% {
+        clip: rect(20px, 900px, 10px, 0);
+      }
+      30% {
+        clip: rect(5px, 900px, 25px, 0);
+      }
+      40% {
+        clip: rect(30px, 900px, 15px, 0);
+      }
+      50% {
+        clip: rect(10px, 900px, 20px, 0);
+      }
+      60% {
+        clip: rect(25px, 900px, 5px, 0);
+      }
+      70% {
+        clip: rect(15px, 900px, 30px, 0);
+      }
+      80% {
+        clip: rect(20px, 900px, 10px, 0);
+      }
+      90% {
+        clip: rect(5px, 900px, 25px, 0);
+      }
+      100% {
+        clip: rect(0, 900px, 0, 0);
+      }
+    }
+
+    nav {
+      display: flex;
+      gap: 20px;
+    }
+
+    /* Modern Cyberpunk Design for 5C Links */
+    nav a {
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 1.1rem;
+      padding: 8px 15px;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(90deg, rgba(255, 0, 255, 0.1), rgba(0, 255, 255, 0.1));
+      transition: color 0.3s ease;
+      text-transform: uppercase;
+    }
+
+    nav a::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, #ff00ff, #00ffff);
+      transition: all 0.3s ease;
+      z-index: -1;
+    }
+
+    nav a:hover::before {
+      left: 0;
+    }
+
+    nav a:hover {
+      color: #000000;
+      background: rgba(255, 0, 255, 0.8); /* Neon pinkish glow */
+      box-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 30px #ff00ff;
+    }
+
+    /* Add space below header */
+    main {
+      padding-top: 150px; /* Offset for fixed header */
+      text-align: center;
+      color: #ffffff;
+    }
+
+    /* Main Heading Styling */
+    .main-heading {
+      font-size: 3rem;
+      font-family: 'Orbitron', sans-serif;
+      color: #ff00ff; /* Neon Pink */
+      text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 40px #ff00ff;
+      position: relative;
+      animation: fade-in 2s ease-out;
+    }
+
+.main-heading::after {
+  content: '';
+  position: absolute;
+  width: 100vw; /* Adjusted to start from the left edge and exceed the right edge */
+  height: 4px;
+  background: linear-gradient(90deg, #ff00ff, #00ffff);
+  left: 0vw; /* Adjusted to start from the left edge */
+  bottom: -10px;
+  animation: slide-in 10s ease-out forwards;
+}
+
+@keyframes slide-in {
+   0% {
+    width: 0%; /* Start with no width */
+    left: 0;   /* Make sure it starts from the left edge */
+  }
+  100% {
+    width: 100vw; /* This will ensure the bar exceeds past the right edge */
+    left: 0vw; /* Adjusted to start from the left side */
+  }
+}
+
+    /* Subheading Styling */
+    .subheading {
+      font-size: 1.2rem;
+      font-family: 'Orbitron', sans-serif;
+      color: #00ffff; /* Neon Cyan */
+      text-shadow: 0 0 8px #00ffff, 0 0 16px #00ffff;
+      line-height: 1.6;
+      max-width: 80%;
+      margin: 20px auto 0;
+      opacity: 0;
+      animation: fade-in 2s ease-out 1s forwards;
+    }
+
+    /* Animations */
+    @keyframes fade-in {
+      0% {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Optional Smooth Scroll */
+    html {
+      scroll-behavior: smooth;
+    }
+	
+	/* Animation for scores */
+    @keyframes score-hover {
+      0% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+      100% {
+        transform: translateY(0);
+      }
+    }
+
+    .subheading.score span {
+      display: inline-block;
+      transition: transform 0.5s ease-in-out;
+    }
+
+    .subheading.score:hover span {
+      transform: translateY(-10px);
+    }
+	
+	.content {
+  display: flex; /* Use flexbox for horizontal layout */
+  justify-content: space-between; /* Space between image and text */
+  align-items: stretch; /* Stretch items to fill the container */
+  width: 100%; /* Full width */
+  height: 400px; /* Set a fixed height for the content area */
+  overflow: hidden; /* Hide overflow */
+  transition: width 0.5s ease; /* Smooth transition */
+}
+
+.image-container {
+  flex: 1; /* Allow the image container to grow */
+  max-width: 50%; /* Limit the max width for the image */
+  margin-right: 20px; /* Add space between image and text */
+}
+
+.image-container img {
+  display: block;
+  width: 100%; /* Full width of the container */
+  height: auto; /* Maintain aspect ratio */
+}
+
+.reflection {
+  flex: 1; /* Allow the text container to grow */
+  max-width: 50%; /* Limit the max width for the text */
+  text-align: left; /* Align text to the left */
+  display: flex; /* Use flexbox for vertical alignment */
+  flex-direction: column; /* Stack text vertically */
+  justify-content: space-between; /* Space out text elements */
+  overflow-y: auto; /* Allow vertical scrolling if content overflows */
+}
+
+button.cyberpunk {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.2rem;
+  color: #00ffff;
+  background: rgba(13, 13, 13, 0.95);
+  border: 2px solid #ff00ff;
+  padding: 10px 20px;
+  margin: 10px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: color 0.3s ease, background 0.3s ease, transform 0.3s ease;
+  text-transform: uppercase;
+  border-radius: 10px; /* Rounded edges */
+  width: 100%; /* Full width */
+  max-width: calc(100% - 40px); /* Prevent overflow */
+  display: block; /* Ensure buttons stack vertically */
+}
+
+button.cyberpunk::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, #ff00ff, #00ffff);
+  transition: all 0.3s ease;
+  z-index: -1;
+}
+
+button.cyberpunk:hover::before {
+  left: 0;
+}
+
+button.cyberpunk:hover {
+  color: #000000;
+  background: rgba(255, 0, 255, 0.8); /* Neon pinkish glow */
+  transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+button.cyberpunk:active {
+  transform: scale(0.95);
+}
+
+button.cyberpunk::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 0, 255, 0.2), rgba(0, 255, 255, 0.2));
+  transition: all 0.3s ease;
+  transform: translate(-50%, -50%) scale(0);
+  z-index: -1;
+}
+
+button.cyberpunk:hover::after {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+main {
+    padding-top: 150px; /* Offset for fixed header */
+    text-align: center;
+    color: #ffffff;
+    display: flex; /* Use flexbox */
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center items horizontally */
+    margin-top: -20px; /* Move the buttons slightly upwards */
+}
+
+
+  </style>
+</head>
+<body>
+  <header>
+    <h1>WPE Journal</h1>
+    <nav>
+	  <a href="index.html">Home</a>
+      <a href="Church(2).html">Church</a>
+      <a href="Culture.html">Cultural</a>
+      <a href="Court.html">Court</a>
+      <a href="Community.html">Community</a>
+    </nav>
+  </header>
+  <main>
+    <button class="cyberpunk entry-button">Entry #1
+  <div class="content" style="display: none; max-width: 90%; margin: 0 auto;">
+    <div class="image-container">
+      <img src="Balik Talent Lecture_ _Big Data and to T_ Why They Matter in Innovation.jpg" alt="Balik Talent Lecture">
+    </div>
+    <div class="reflection">
+          <h2>Balik Talent Lecture: "Big Data and to T: Why They Matter in Innovation</h2>
+          <p>On August 20, 2024, at 9:30 AM, I attended the Balik Talent lecture “Data and IoT: Why They Matter” in ATA hall. The three hour session was led by a seasoned pro from data science and IoT innovation. The point of the talk was to take a deep dive into the significance of data and the Internet of Things (IoT) in creating tech and society. As an attendee I was destined to listen, absorb the ideas and critically think. Students, professionals, and tech enthusiasts swarmed the room to hear about this constantly developing world of technology.</p> <br>
+          <p>From the lecture I learned how data and IoT came together to create smarter more efficient systems. First, I thought it would be going to be too technical and I am pleased to see how it is focused on real life application like smart cities and progress in healthcare. One moment which really stuck out was when the speaker dished about how IoT is employed to save lives in the aftermath of a disaster—a strong example of its capabilities. I particularly liked seeing how these technologies are going to solve some of the major global issues, something that really fits my agenda what I'm passionate about: being innovative and making a difference. Some of the tech jargon was over my head though, a reminder there’s always more to learn.</p> <br>
+          <p>It gave me a different perspective on how data and IoT are connected in this part of the future. It demonstrated how and why important ethical practices around the use of data and innovation should always put people at the tip of their shoes. Moving forward. I’m looking forward to further dive into these technologies and hopefully have a shot at projects which involve IoT technologies. If I could go back, I’d spend time learning the basics of IoT so that I could get more from the material.</p> <br>
+		  <p>In terms of the content of this lecture, I felt inspired to find out how emerging technologies might bring about real, tangible change.</p>
+        </div>
+      </div>
+    </button>
+     <button class="cyberpunk entry-button">Entry #2
+  <div class="content" style="display: none; max-width: 90%; margin: 0 auto;">
+    <div class="image-container">
+      <img src="Book Bingo.jpg" alt="Book Bingo">
+    </div>
+    <div class="reflection">
+          <h2>Book Bingo</h2>
+          <p>I joined the Book Bingo event, a lively and creative gathering held on August 21, 2024, at 10:00 AM. We had students dressed as all sorts of wacky fictitious characters such as Detective Conan, Sherlock Holmes, Wednesday, and Little Red Riding Hood. Activities included character guessing games, anime/manga id quizzes, Pass the Message, a ball toss with a Harry Potter theme and even a dance battle. The main goal? I’d dare say they got us to collaborate, think creatively, and most importantly, have fun, and they absolutely nailed it! </p> <br>
+          <p> I jumped right in, with some help, solving clues, identifying characters, and playing games with others. The anime/manga one is a personal favorite of mine, you’d try to spot scenes from really amazing series. Another one we did where we stuffed marshmallows into our mouth whilst trying to say "Little Red Riding Hood". We really put it out there: whether we were problem solving or lining up excitedly for Harry Potter ball toss to rack up points, my team was giving it their all. </p> <br>
+		  <p>It definitely helped me learn all about teamwork, perseverance, as well as stepping out of my comfort zone. Games and challenges really made me adapt and find others through meaningful ways. If I could do this all again, I think I would go into every single one of them with more confidence, maybe even yell even louder for my teammates. This event has taught me to be more open to new experiences and be more comfortable jumping in with other people for challenges.</p> <br>
+        </div>
+      </div>
+        <button class="cyberpunk entry-button">Entry #3
+  <div class="content" style="display: none; max-width: 90%; margin: 0 auto;">
+    <div class="image-container">
+      <img src="Guidance and Counseling Group Dynamics Activity.jpg" alt="Guidance And Counseling Group Dynamics Activity">
+    </div>
+    <div class="reflection">
+          <h2>Guidance And Counseling Group Dynamics Activity</h2>
+          <p>On August 21, 2024, at 2:30 PM, </p> <br>
+          <p>I attended the Guidance Counseling Group Dynamics Activity. As a way to kick start the event, all attendees had to fill in their personal particulars on forms before the official event started. Next, we played a game called the "Evolution Game" where all of us would try to challenge each other to play rock, paper, scissors and evolve from chickens to eventually reaching the top of the food chain. It was pure craziness, everybody's having a great time and it's a really fantastic way to get the energy going. </p> <br>
+          <p>It got us to think fast and start working as a team. The challenges — including miscommunication in the rope game — did not dampen out spirits or keep us from making the most of the event. Solving problems with others got me a lot of sense of achievement. Fortunately, I learned it became a very fun and interactive way to have fun, but also reinforce the importance of teamwork and clear communication in a fun way.</p> <br>
+		  <p>We all gathered at the end for a big group photo to record the memories we shared in that room. Staying calm under pressure and value of creativity and doing a team flow was one such memory of this activity. So if I had a chance to do it over again, I would have focused on ensuring my team’s communication was enough to avoid any confusion. This experience made me more sure that I can cope with that looking into my eyes as well as working with others.</p> <br>
+        </div>
+      </div>
+   <button class="cyberpunk entry-button">Entry #4
+  <div class="content" style="display: none; max-width: 90%; margin: 0 auto;">
+    <div class="image-container">
+      <img src="Miller Solutions.jpg" alt="Miller Solutions">
+    </div>
+    <div class="reflection">
+          <h2>Miller Solutions Inc. Industry Lecture: "Web Development: Web Development: Latest Trends and Strategies</h2>
+          <p>On August 22, 2024, at 8:30 AM, I participated in the industry lecture of Miller Solutions Development Inc. The title was 'UI/UX Tips for Designing a Seamless User Experience.' The presenter in a casual, friendly way relaxed and made it easy to listen to and enjoyable. The talk was also very informative. They spoke more about what constitutes good UI and UX and who should get involved in creating them. There were such good practical tips and resources offered that one could use in creating websites and applications. These would be things you would never really think about unless you were involved in UI/UX design yourself, like color contrast, sizing, and layout. The end of the session left me better aware of the kind of thought process that should go into creating such elements. </p> <br>
+          <p>Adding another dash of humor condiment in between the presentation was a great touch; it included a variety of memes that made quick work of complex ideas and humanized the session. This drove the bottom line much easier to grasp and retained the attention of one and all.  The take-home message was evidently clear and that was that balance and simplicity are the pivots of effective UI/UX design.  </p> <br>
+          <p>The session was interactive in that we undertook an exercise in which we fashioned an app user interface on paper. We brainstormed the way our app would look, the features it would require, etc., with the help of a phone-shaped template. Although my friends and I were having quite a bit of trouble with makeup work, it was definitely fun and enjoyable. It gave us some real insight into the difficulties of UI/UX development. </p> <br>
+		  <p>All in all, I walked away from this service feeling refreshed and resolved, in a way, to pray and reflect, as much as possible. The fact that such a brief time in taking a break could be so spiritually beneficial can be seen.</p> <br>
+        </div>
+      </div>
+    <button class="cyberpunk entry-button">Entry #5
+  <div class="content" style="display: none; max-width: 90%; margin: 0 auto;">
+    <div class="image-container">
+      <img src="Mental Health Literacy Workshop(3).jpg" alt="Mental Health Literacy Workshop">
+    </div>
+    <div class="reflection">
+          <h2>Mental Health: Literacy Workshop</h2>
+          <p>It took place on October 16, 2024, beginning at 6 AM and focusing upon mental well-being. It was in the ATA Hall and aimed mainly at developing strategies to enhance mental well-being amongst participants. The event afforded space for reflection on the alternatives offered by mental health while equipping participants with mechanisms and insights on countering anxieties and stresses. </p> <br>
+          <p> In the beginning of the lecture, I expected that general advice about health management would be rendered; however, what stood out most was out of the ordinary niceness and really impactful nature of the discussion. It was eye-opening to realize just how many people silently struggle with mental health challenges. The speaker left a deep impression on me; she was genuine and relatable, as she shared her experiences and coping strategies. She did not lecture; she connected with the audience by giving specific advice based on her personal journey. Most difficult perhaps was the fact that many people still deny seeking help, either because of stigma or fear, continuing to undergo pain in silence. </p> <br>
+          <p>It had completely changed my viewpoint. I now understand how stress from school or personal life can press upon people, sometimes in ways that are not readily visible. It also caused me to reflect on how I am able to engage with the cause. I've since started following their Facebook page for updates and future events, knowing that these sessions reveal great teachings on stress management and lessening anxiety. Were I ever to be given the chance of joining this activity again, I would make even more of a conscious effort to listen and support those that are in trouble with their mental health. </p> <br>
+		  <p>Helping me understand mental health challenges and appropriate ways to help those dealing with them, this experience made me much more conscious of the fact that help is out there; moreover, how as a community, we may be more compassionate and proactive in dealing with mental health issues. This inspired me to do more and to empower other people to care about mental health.</p> <br>
+        </div>
+      </div>
+     <button class="cyberpunk entry-button">Entry #6
+  <div class="content" style="display: none; max-width: 90%; margin: 0 auto;">
+    <div class="image-container">
+      <img src="arts.jpg" alt="Arts + Design Collective">
+    </div>
+    <div class="reflection">
+          <h2>Arts + Design Collective</h2>
+          <p>On Saturday, October 26, 2024, at 11:00 AM, I attended the "Arts + Design Collective" event hosted by the Arts and Design Collective Dumaguete (ADCD) at their creative hub: 58 E.J. Blanco Drive, Barangay Piapi, Dumaguete City. </p> <br>
+          <p> The event featured an amazing range of art and design pieces from local artists and designers that reflected Dumaguete's rich cultural diversity. The venue, a repurposed house dating back to the 1950s, formed an intimate and creatively inspiring backdrop for the displays. </p> <br>
+          <p>During this experience, my heart was touched with high regard for the local arts and the importance of supporting these initiatives. The 'Arts + Design Collective' show highlighted the important role creativity plays in uniting people and enriching the cultural landscape of Dumaguete. </p> <br>
+        </div>
+      </div>
+      <button class="cyberpunk entry-button">Entry #7
+  <div class="content" style="display: none; max-width: 90%; margin: 0 auto;">
+    <div class="image-container">
+      <img src="Negros Design Week(Reading Room).jpg" alt="Negros Design Week Reading Room">
+    </div>
+    <div class="reflection">
+          <h2>Negros Design Week(Reading Room)</h2>
+          <p>I had the opportunity to attend the Association of Design and Creative Professionals (ADCD) "Negros Design Week (Reading Room)" on October 26, 2024. The event had a big effect on me, providing not just immersion into the realm of designing, but a deeper understanding of Negros' rich cultural fabric. This is a reflection on that experience, the learning I had, and how the experience altered my perception of design as a creative tool. </p> <br>
+          <p> It was a very quiet space-almost meditative; a buzz of tale-telling came alive through visual art, sculptures, posters, and interactive design objects. The placement and arrangement of these things seemed to encourage some conversation between the viewer and the creator, and I quickly began to reflect on how design is not just decoration, but conversation. </p> <br>
+		  <p>It pointed out that the design consists not merely of creating aesthetic objects, that is, anything that "looks nice". But it gives meaning to objects, communicates something, and connects well with an audience. That experience set me thinking about how I could approach my own work-not just as an art form, but as a form of communication, empowerment, and change.</p> <br>
+        </div>
+      </div>
+     <button class="cyberpunk entry-button">Entry #8
+  <div class="content" style="display: none; max-width: 90%; margin: 0 auto;">
+    <div class="image-container">
+      <img src="Volunteering Network Program (2).jpg" alt="Aurora Of Mama MAry">
+    </div>
+    <div class="reflection">
+          <h2>Volunteering Network Program</h2>
+          <p>In addition, I participated in the "Volunteering Network Program" organized by the Social Services Committee of the Silliman University Student Government on the 13th of November, 2024, from 1:00 PM until 11:00 AM. The whole idea was to help students connect with community service opportunities, foster a spirit of volunteerism, and instill a sense of social responsibility. </p> <br>
+          <p>The first part of the program was orientation. We were walked through the various projects and organizations that require assistance. The session provided some perspectives of the various sectors inferential with respect to Dumaguete City and for the need to engage with the community. </p> <br>
+		  <p>Sitting back, I think about the experience and realize the significance of community participation and the importance of unity in the working together of many. While the 'Volunteering Network Program' offered me a chance to take part in aspirational causes, it also provided me with a look into various aspects of our communities' social issues.I certainly appreciate the opportunity to participate in this program and look forward to other like-minded ventures to promote social responsibility and community development.</p> <br>
+		  
+       <button class="cyberpunk entry-button" onclick="window.location.href='Silliman Neon.html';">Click me!</button>
+        </div>
+      </div>
+  </main>
+</body>
+<script>
+    const canvas = document.createElement('canvas');
+    document.body.appendChild(canvas);
+    const ctx = canvas.getContext('2d');
+
+    canvas.style.position = 'fixed';
+    canvas.style.top = '0';
+    canvas.style.left = '0';
+    canvas.style.pointerEvents = 'none'; 
+    canvas.style.zIndex = '-1';
+
+    const resizeCanvas = () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    };
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    const stars = [];
+    for (let i = 0; i < 200; i++) {
+        stars.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            radius: Math.random() * 2 + 1, 
+            dx: Math.random() * 0.5 - 0.25,
+            dy: Math.random() * 0.5 - 0.25,
+            opacity: Math.random() * 0.1 + 0.1,  
+        });
+    }
+
+    const animate = () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        for (const star of stars) {
+            ctx.beginPath();
+            ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
+            ctx.fill();
+            star.x += star.dx;
+            star.y += star.dy;
+
+            if (star.x < 0 || star.x > canvas.width || star.y < 0 || star.y > canvas.height) {
+                star.x = Math.random() * canvas.width;
+                star.y = Math.random() * canvas.height;
+                star.dx = Math.random() * 0.5 - 0.25;
+                star.dy = Math.random() * 0.5 - 0.25;
+            }
+        }
+
+        requestAnimationFrame(animate);
+    };
+    animate();
+
+document.querySelectorAll('.entry-button').forEach(button => {
+    button.addEventListener('click', () => {
+        const content = button.querySelector('.content');
+        content.style.display = content.style.display === 'none' ? 'flex' : 'none';
+        content.style.transition = 'width 0.5s ease';
+        content.style.width = content.style.display === 'flex' ? '100%' : '0';
+
+        // Scroll to the button
+        button.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+});
+
+document.addEventListener("contextmenu", (event) => {
+    event.preventDefault();
+  });
+  
+   document.addEventListener("keydown", (event) => {
+    if (
+      event.key === "F12" || 
+      (event.ctrlKey && event.shiftKey && ["I", "C", "J"].includes(event.key)) || 
+      (event.ctrlKey && event.key === "U")
+    ) {
+      event.preventDefault();
+    }
+  });
+
+
+</script>
+</html>
