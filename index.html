@@ -1,40 +1,386 @@
-<!DOCTYPE HTML>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-     <title>Midterm Project </title>
-	 <link rel = "stylesheet" type = "text/css" href = "MidtermOutput.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WPE Journal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+     /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #0d0d0d; /* Dark background */
+      font-family: 'Orbitron', sans-serif;
+      color: #e0e0e0;
+      overflow-x: hidden;
+      animation: background-fade-in 3s ease-in-out forwards;
+    }
+
+    @keyframes background-fade-in {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('pixel_horizon.png');
+      background-size: cover;
+      background-position: center;
+      opacity: 0.2; /* Slightly darker transparency */
+      z-index: -1;
+      animation: background-fade-in 3s ease-in-out forwards;
+    } 
+
+    /* Floating Header Bar */
+    header {
+      position: fixed;
+      top: -100px; /* Start off-screen */
+      width: 100%;
+      background: rgba(13, 13, 13, 0.95); /* Slightly transparent dark background */
+      box-shadow: 0px 4px 8px rgba(0, 255, 255, 0.5);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      z-index: 1000;
+      border-bottom: 2px solid #ff00ff; /* Neon pink border */
+      animation: header-slide-in 2s ease-out forwards;
+    }
+
+    @keyframes header-slide-in {
+      0% {
+        top: -100px; /* Start off-screen */
+      }
+      100% {
+        top: 0; /* End at the top of the screen */
+      }
+    }
+
+    header h1 {
+      color: #00ffff; /* Neon cyan */
+      font-size: 2rem;
+      position: relative;
+      text-shadow: 0 0 4px #00ffff, 0 0 8px #00ffff, 0 0 16px #00ffff;
+      animation: glitch 2s infinite;
+    }
+
+    header h1::before,
+    header h1::after {
+      content: 'WPE Journal';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      color: #ff00ff; /* Neon pink glitch overlay */
+      overflow: hidden;
+      clip: rect(0, 900px, 0, 0);
+      animation: glitch-lines 2s infinite ease-in-out;
+    }
+
+    header h1::after {
+      color: #00ffff; /* Cyan glitch overlay */
+      animation: glitch-lines 2s infinite ease-in-out reverse;
+    }
+
+    @keyframes glitch {
+      0% {
+        text-shadow: 1px 1px #ff00ff, -1px -1px #00ffff;
+      }
+      50% {
+        text-shadow: -1px -1px #ff00ff, 1px 1px #00ffff;
+      }
+      100% {
+        text-shadow: 1px -1px #ff00ff, -1px 1px #00ffff;
+      }
+    }
+
+    @keyframes glitch-lines {
+      0% {
+        clip: rect(0, 900px, 0, 0);
+      }
+      10% {
+        clip: rect(15px, 900px, 30px, 0);
+      }
+      20% {
+        clip: rect(20px, 900px, 10px, 0);
+      }
+      30% {
+        clip: rect(5px, 900px, 25px, 0);
+      }
+      40% {
+        clip: rect(30px, 900px, 15px, 0);
+      }
+      50% {
+        clip: rect(10px, 900px, 20px, 0);
+      }
+      60% {
+        clip: rect(25px, 900px, 5px, 0);
+      }
+      70% {
+        clip: rect(15px, 900px, 30px, 0);
+      }
+      80% {
+        clip: rect(20px, 900px, 10px, 0);
+      }
+      90% {
+        clip: rect(5px, 900px, 25px, 0);
+      }
+      100% {
+        clip: rect(0, 900px, 0, 0);
+      }
+    }
+
+    nav {
+      display: flex;
+      gap: 20px;
+    }
+
+    /* Modern Cyberpunk Design for 5C Links */
+    nav a {
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 1.1rem;
+      padding: 8px 15px;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(90deg, rgba(255, 0, 255, 0.1), rgba(0, 255, 255, 0.1));
+      transition: color 0.3s ease;
+      text-transform: uppercase;
+    }
+
+    nav a::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, #ff00ff, #00ffff);
+      transition: all 0.3s ease;
+      z-index: -1;
+    }
+
+    nav a:hover::before {
+      left: 0;
+    }
+
+    nav a:hover {
+      color: #000000;
+      background: rgba(255, 0, 255, 0.8); /* Neon pinkish glow */
+      box-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 30px #ff00ff;
+    }
+
+    /* Add space below header */
+    main {
+      padding-top: 150px; /* Offset for fixed header */
+      text-align: center;
+      color: #ffffff;
+    }
+
+    /* Main Heading Styling */
+    .main-heading {
+      font-size: 3rem;
+      font-family: 'Orbitron', sans-serif;
+      color: #ff00ff; /* Neon Pink */
+      text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 40px #ff00ff;
+      position: relative;
+      animation: fade-in 2s ease-out;
+    }
+
+.main-heading::after {
+  content: '';
+  position: absolute;
+  width: 100vw; /* Adjusted to start from the left edge and exceed the right edge */
+  height: 4px;
+  background: linear-gradient(90deg, #ff00ff, #00ffff);
+  left: 0vw; /* Adjusted to start from the left edge */
+  bottom: -10px;
+  animation: slide-in 10s ease-out forwards;
+}
+
+@keyframes slide-in {
+   0% {
+    width: 0%; /* Start with no width */
+    left: 0;   /* Make sure it starts from the left edge */
+  }
+  100% {
+    width: 100vw; /* This will ensure the bar exceeds past the right edge */
+    left: 0vw; /* Adjusted to start from the left side */
+  }
+}
+
+    /* Subheading Styling */
+    .subheading {
+      font-size: 1.2rem;
+      font-family: 'Orbitron', sans-serif;
+      color: #00ffff; /* Neon Cyan */
+      text-shadow: 0 0 8px #00ffff, 0 0 16px #00ffff;
+      line-height: 1.6;
+      max-width: 80%;
+      margin: 20px auto 0;
+      opacity: 0;
+      animation: fade-in 2s ease-out 1s forwards;
+    }
+
+    /* Animations */
+    @keyframes fade-in {
+      0% {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Optional Smooth Scroll */
+    html {
+      scroll-behavior: smooth;
+    }
+	
+	/* Animation for scores */
+    @keyframes score-hover {
+      0% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+      100% {
+        transform: translateY(0);
+      }
+    }
+
+    .subheading.score span {
+      display: inline-block;
+      transition: transform 0.5s ease-in-out;
+    }
+
+    .subheading.score:hover span {
+      transform: translateY(-10px);
+    }
+	
+	 .image-container {
+  display: flex;            /* Enables flexbox */
+  justify-content: center;  /* Centers horizontally */
+  align-items: center;      /* Centers vertically */
+  height: 100vh;            /* Makes container take full viewport height */
+  margin-top: -100px;       /* Adjust for header offset */
+}
+
+.image-container img {
+  display: block;
+  width: 100%;
+  max-width: 800px;
+  height: auto;
+}
+
+
+  </style>
 </head>
-
-<body style = "background-color:black;">
-     <div class="parallax-section">
-     <div class = "chosen1">
-	 <h1 class = "main-content"> NEIL DIVINAGRACIA </h1>
-	 </div>
-	 
-	 <div>
-	 <img class = "main-content" src="Back1.png" alt="Picture Of Me At The Acquaintance Party" height="700" width = "500">
-     </div>
-	 </div>
-	 <div class="floating-bar">
-        Howdy! my name is Neil Arthur B.Divinagracia and I am currently a student at Silliman University trying to earn my BSCS degree. I've always been fascinated with computers even at a<br>
-		young age and that same feeling had never once wavered from me. My hobbies typically include a variety of subjects such as reading, writing, drawing, coding, exercising etc. I'm definitely<br> not the best at coding and quite frankly, I feel somewhat burnt out by it considering that I've never been the type of person to enjoy what other people tell them to make but regardless, I'm always willing to learn.<br> I also enjoy doing other computer related activities such as hacking and video games.
-		
-		<h3> <a href = "Form.html"> I WANT TO KNOW MORE ABOUT YOU </h3> </a>
-	 </div>
-  
-    
-    <div class = "chosen2">
-	 <h1> PROJECTS </h1>
-	</div>
-
-    <div class = "bottom-float-bar">
-     These Are My Exercises:<br>
-	 
-	 <a href = "DivinagraciaE1-1.html" target="_blank">Exercise 1</a> <br>
-	 <a href = "Divinagracia%20E1-2.html" target="_blank">Exercise 2</a> <br>
-	 <a href = "DivinagraciaE3.html" target="_blank">Exercise 3</a> <br>
-	 <a href = "DivinagraciaE4.html" target="_blank">Exercise 4</a> <br>
-	 <a href = "output5.html" target="_blank">Exercise 5</a> <br>
-     </div>
+<body>
+  <header>
+    <h1>WPE Journal</h1>
+    <nav>
+      <a href="Church(2).html">Church</a>
+      <a href="Classroom.html">Classroom</a>
+      <a href="Culture.html">Cultural</a>
+      <a href="Court.html">Court</a>
+      <a href="Community.html">Community</a>
+    </nav>
+  </header>
+  <main>
+    <h1 class="main-heading">FULFILLING THE 5C'S OF SILLIMAN UNIVERSITY</h1>
+    <p class="subheading">For its brand of a holistic approach to education, Silliman centers the learning and development of its students in the 5Cs, five venues for learning outside the Classroom, the first “C”. The other Cs are the Church, Court, Culture, and Community. This website was created by Neil Arthur B.Divinagracia in an attempt to showcase all the skills, values and lessons he accumulated from each event attended.</p>
+    <p class="subheading">TOTAL POINTS FOR EACH CATEGORY:</p>
+    <p class="subheading score">Culture: <span>8/8</span></p>
+    <p class="subheading score">Classroom: <span>8/8</span></p>
+    <p class="subheading score">Court: <span>8/8</span></p>
+    <p class="subheading score">Church: <span>8/8</span></p>
+    <p class="subheading score">Community: <span>8/8</span></p>
+  </main>
 </body>
-</html> 
+<script>
+    const canvas = document.createElement('canvas');
+    document.body.appendChild(canvas);
+    const ctx = canvas.getContext('2d');
+
+    canvas.style.position = 'fixed';
+    canvas.style.top = '0';
+    canvas.style.left = '0';
+    canvas.style.pointerEvents = 'none'; 
+    canvas.style.zIndex = '-1';
+
+    const resizeCanvas = () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    };
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    const stars = [];
+    for (let i = 0; i < 200; i++) {
+        stars.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            radius: Math.random() * 2 + 1, 
+            dx: Math.random() * 0.5 - 0.25,
+            dy: Math.random() * 0.5 - 0.25,
+            opacity: Math.random() * 0.1 + 0.1,  
+        });
+    }
+
+    const animate = () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        for (const star of stars) {
+            ctx.beginPath();
+            ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
+            ctx.fill();
+            star.x += star.dx;
+            star.y += star.dy;
+
+            if (star.x < 0 || star.x > canvas.width || star.y < 0 || star.y > canvas.height) {
+                star.x = Math.random() * canvas.width;
+                star.y = Math.random() * canvas.height;
+                star.dx = Math.random() * 0.5 - 0.25;
+                star.dy = Math.random() * 0.5 - 0.25;
+            }
+        }
+
+        requestAnimationFrame(animate);
+    };
+    animate();
+	
+	document.addEventListener("contextmenu", (event) => {
+    event.preventDefault();
+  });
+  
+   document.addEventListener("keydown", (event) => {
+    if (
+      event.key === "F12" || 
+      (event.ctrlKey && event.shiftKey && ["I", "C", "J"].includes(event.key)) || 
+      (event.ctrlKey && event.key === "U")
+    ) {
+      event.preventDefault();
+    }
+  });
+</script>
+</html>
